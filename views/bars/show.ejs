@@ -1,0 +1,90 @@
+<% include ../partials/header %>
+<div class="row">
+  <div class="col-md-3">
+    <div id="map" style="height: 400px; width: 100%;"></div>
+  </div>
+  <div class="col-md-9">
+    <div class="card mb-3">
+      <img class="card-img-top" src="<%= bar.image %>" alt="<%= bar.name %>">
+      <div class="card-body">
+        <h5 style="font-weight:bold; font-size: 30px;" class="card-title"><%= bar.name %></h5>
+        <p>located in <%= bar.location%></p>
+        <p>
+          <em>Submitted by: <%= bar.author.username %>, <%= moment(bar.createdAt).fromNow() %></em>
+        </p>
+        <hr>
+        <p class="card-text"><%= bar.text%></p>
+        <% if(currentUser && bar.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+        <a class="btn btn-warning" href="/bars/<%= bar._id %>/edit">Edit</a>
+        <form action="/bars/<%= bar._id %>?_method=DELETE" method="POST" class="delete-form">
+          <button class="btn btn-danger">Delete</button>
+        </form>
+        <% } %>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="text-right">
+          <a class="btn btn-success" href="/bars/<%= bar._id %>/comments/new">Add New Comment</a>
+        </div>
+        <hr>
+        <div class="row">
+        <% bar.comments.forEach(function(comment){ %>
+          <div class="col-md-12 mb-2">
+            <div class="card">
+              <div class="card-body">
+                <div class="float-left">
+                  <p class="card-title" style="font-weight:bold;"><%= comment.author.username %></p>
+                  <p class="card-text"><%= comment.text %></p>
+                </div>
+                <div class="float-right">
+                  <p><%= moment(comment.createdAt).fromNow() %></p>
+                  
+                  <% if(currentUser && comment.author.id.equals(currentUser._id) || currentUser && currentUser.isAdmin){ %>
+                  <div class="float-right">
+                    <a href="/bars/<%=bar._id%>/comments/<%=comment._id%>/edit" class="btn btn-sm btn-warning">EDIT</a>
+                    <form class="delete-form" action="/bars/<%=bar._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                      <button class="btn btn-sm btn-danger">DELETE</button>
+                    </form>
+                  </div>
+                  <% } %>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+  function initMap() {
+    var lat = <%= bar.lat %>;
+    var lng = <%= bar.lng %>;
+    var center = {lat: lat, lng: lng };
+    var map = new google.maps.Map(document.getElementById('map'), {
+        zoom: 8,
+        center: center,
+        scrollwheel: false
+    });
+    var contentString = `
+      <strong><%= bar.name %><br />
+      <%= bar.location %></strong>
+      <p><%= bar.text %></p>
+    `
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    var marker = new google.maps.Marker({
+        position: center,
+        map: map
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+</script>
+
+<% include ../partials/footer %>

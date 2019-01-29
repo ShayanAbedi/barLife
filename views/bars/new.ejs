@@ -1,0 +1,40 @@
+<% include ../partials/header %> 
+
+
+
+<div style="margin-top:50px;"class="row">
+    <div class="col-md-12">
+        <h1 style="text-align: center;">Add a new bar to your collection</h1>
+    </div>
+    <div style="width: 30%; margin: 25px auto;">
+        <form action="/bars" method="POST">
+            <div class="form-group" >
+                <label for="name">Name </label>
+                <input required class="form-control form-control-sm" type="text" name="name" placeholder="bar name">
+            </div>
+            <div class="form-group" >
+               <label for="location">Location</label>
+               <input class="form-control form-control-sm" type="text" name="location" id="location" placeholder="Fredericton, NB">
+            </div>
+            <div class="form-group" >
+                <label>Image</label>
+                <input class="form-control form-control-sm" type="text" name="image" placeholder="image url">
+            </div>
+            <div class="form-group" >
+                <label>More Info</label>
+                <textarea class="form-control" required name="text"></textarea>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-lg btn-success btn-block">Submit</button>
+            </div>
+        </form>
+        <a href="/bars">Go back</a>
+    </div>
+</div>    
+
+
+<% include ../partials/footer %>
+
+
+
+

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Barlife</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+        <link rel="stylesheet" href="/stylesheets/main.css">
+        <link href="https://fonts.googleapis.com/css?family=Baloo+Thambi" rel="stylesheet">
+    </head>
+    <body>
+       <nav class="navbar navbar-expand-md navbar-dark  bg-dark">
+           <div class="container-fluid">
+          <a class="navbar-brand" href="/"><i class="fab fa-blogger-b"></i>arlife</a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <% if(!currentUser) { %>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/login">Login <i class="fas fa-sign-in-alt"></i></a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="/register">Sign Up  <i class="fas fa-user-plus"></i></a>
+                  </li>
+                <% } else { %>
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#"> <i class="fas fa-user"></i> <%= currentUser.username %></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Logout <i class="fas fa-sign-out-alt"></i></a>
+                    </li>
+                <% } %>
+            </ul>
+              <form class="form-inline mt-2 mt-md-0"action="/bars" method="GET" class="form-inline" id="bar-search">
+                  <input class="form-control mr-sm-2" type="text" name="search" placeholder="Bar search..." aria-label="Search">
+                  <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+              </form>
+          </div>
+          </div>
+        </nav>
+       <div class="container">
+            <% if(error && error.length > 0){ %>
+                <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                </div>
+            <% } %>
+            <% if(success && success.length > 0){ %>
+                <div class="alert alert-success" role="alert">
+                    <%= success %>
+                </div>
+            <% } %>
+       </div>
